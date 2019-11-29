@@ -30,13 +30,24 @@ public class DestinationDAO extends AbstractDAO<Destination, Long> {
 		em.close();
 		return destination;
 	}
+	
+	public void delete(long id) {
+		EntityManager em = getEntityManagerFactory().createEntityManager();
+		Destination destination = em.find(Destination.class, id);
+		destination.setDeleted(1);
+		update(destination);
+	}
 
 	public List<Destination> getDestinations() {
 		EntityManager em = getEntityManagerFactory().createEntityManager();
 		List<Destination> destinations = em.createNamedQuery("Destination.getDestinations", Destination.class)
 				.getResultList();
 		em.close();
-		return destinations;
+		List<Destination> destinationsValid = new ArrayList<Destination>();
+		for(Destination d : destinations) {
+			if(d.getDeleted() == 0) destinationsValid.add(d);
+		}
+		return destinationsValid;
 	}
 
 	public Destination addDestinationDate(long destinationID, DatesVoyages newDate) {

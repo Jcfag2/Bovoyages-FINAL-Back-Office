@@ -9,10 +9,6 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-<h2>Recherche de toutes les destinations existantes</h2>
-<form action="GetAllDestinationsServlet" METHOD="POST" enctype="multipart/form-data">
-<button type="submit" >Chercher</button>
-</form>
 <div class="container">
 <h2><span class="badge badge-primary">Service d'Authentification</span></h2>
 </div>
