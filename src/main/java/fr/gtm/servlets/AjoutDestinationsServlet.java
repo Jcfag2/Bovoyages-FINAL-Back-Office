@@ -2,6 +2,8 @@ package fr.gtm.servlets;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.AccessDeniedException;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,6 +23,7 @@ import javax.servlet.http.Part;
 
 import fr.gtm.entities.DatesVoyages;
 import fr.gtm.entities.Destination;
+import fr.gtm.entities.Image;
 import fr.gtm.services.DestinationServices;
 
 @WebServlet("/AjoutDestinationsServlet")
@@ -55,10 +58,115 @@ public class AjoutDestinationsServlet extends HttpServlet {
 		String name = request.getParameter("name");
 		LOGGER.info("Paramètre 'name' == "+name);
 		final Part filePart = request.getPart("simple-file");
+		try {
+			
+			doTryAccessDeniedException(request,response,folder,name,filePart);
+			
+		}catch(AccessDeniedException exception) {
+			
+			doCatchAccessDeniedException(request,response);
+			
+		}
+		}
+	
+	private String getFileName(Part part) {
+		final String partHeader = part.getHeader("content-disposition");
+		LOGGER.log(Level.INFO, "Part Header = {0}", partHeader);
+		for (String content : part.getHeader("content-disposition").split(";")) {
+		if (content.trim().startsWith("filename")) {
+		return content.substring(content.indexOf('=') + 1).trim().replace("\"", "");
+		}
+		}
+		return null;
+		}
+	
+	private void doCatchFileAlreadyExistsException(HttpServletRequest request, HttpServletResponse response, InputStream in,Part filePart)  throws ServletException, IOException {
+		
+		in.close();
+		// pour supprimer le fichier temporaire
+		DestinationServices service = (DestinationServices) getServletContext().getAttribute(Constantes.DESTINATIONS_SERVICE);
+		Destination destination = new Destination();
+		String region = request.getParameter("region");
+		String description = request.getParameter("description");
+		destination.setRegion(region);
+		destination.setDescription(description);
+		service.addDestination(destination);
+		filePart.delete();
+//		Recuperation informations pour ajouter les destinations
+		List<Destination> destinations=new ArrayList<Destination>();
+		destinations =  service.getDestinations();
+		List<Image> images =   new ArrayList<Image>();
+		List<Image> imagesDestination =   new ArrayList<Image>();
+		Image image =   new Image();
+		for(Destination d : destinations) {
+			images = service.getImages(d.getId());
+			if(!images.isEmpty()) {
+				image = images.get(0);
+			}
+			else {
+				image = new Image();
+				image.setImage("defaut.jpg");
+			}
+			imagesDestination.add(image);
+		}
+		request.setAttribute("destinations", destinations);
+		request.setAttribute("imagesDestination", imagesDestination);
+		RequestDispatcher rd = getServletContext().getRequestDispatcher("/show-destinations.jsp");
+		rd.forward(request, response);
+		doGet(request, response);
+	}
+	
+	private void doCatchAccessDeniedException(HttpServletRequest request, HttpServletResponse response)   throws ServletException, IOException {
+//      ajout de la region			
+		DestinationServices service = (DestinationServices) getServletContext().getAttribute(Constantes.DESTINATIONS_SERVICE);
+		Destination destination = new Destination();
+		String region = request.getParameter("region");
+		String description = request.getParameter("description");
+		destination.setRegion(region);
+		destination.setDescription(description);
+		service.addDestination(destination);
+//		recuperation des destinations pour renvoyer sur la page principale
+		List<Destination> destinations= service.getDestinations();
+		List<Image> images =   new ArrayList<Image>();
+		List<Image> imagesDestination =   new ArrayList<Image>();
+		Image image =   new Image();
+		for(Destination d : destinations) {
+			images = service.getImages(d.getId());
+			if(!images.isEmpty()) {
+				image = images.get(0);
+			}
+			else {
+				image = new Image();
+				image.setImage("defaut.jpg");
+			}
+			imagesDestination.add(image);
+		}
+		request.setAttribute("destinations", destinations);
+		request.setAttribute("imagesDestination", imagesDestination);
+		RequestDispatcher rd = getServletContext().getRequestDispatcher("/show-destinations.jsp");
+		rd.forward(request, response);
+		doGet(request, response);
+	}
+	
+	private void doTryAccessDeniedException(HttpServletRequest request, HttpServletResponse response,String folder, String name, Part filePart)  throws ServletException, IOException {
 		final String fileName = getFileName(filePart);
 		// copie le fichier reçu vers son emplacement définitif
-		Path path = FileSystems.getDefault().getPath(folder, fileName);
-		InputStream in = filePart.getInputStream();
+				Path path = FileSystems.getDefault().getPath(folder, fileName);
+				InputStream in = filePart.getInputStream();
+				try {
+					
+					doTryFileAlreadyExistsException(request,response,folder,name,filePart,fileName,path,in);
+					
+				}
+				catch(FileAlreadyExistsException exception) {
+					
+					doCatchFileAlreadyExistsException(request,response,in,filePart);
+					
+				}
+	}
+	
+	private void doTryFileAlreadyExistsException(HttpServletRequest request, HttpServletResponse response,String folder, String name, Part filePart, String fileName, Path path, InputStream in)  throws ServletException, IOException {
+		
 		Files.copy(in, path);
 		in.close();
 		// pour supprimer le fichier temporaire
@@ -79,19 +187,27 @@ public class AjoutDestinationsServlet extends HttpServlet {
 		}
 		service.addImage(id, fileName);
 		filePart.delete();
-		RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
+//		Recuperation informations pour ajouter les destinations
+		destinations =  service.getDestinations();
+		List<Image> images =   new ArrayList<Image>();
+		List<Image> imagesDestination =   new ArrayList<Image>();
+		Image image =   new Image();
+		for(Destination d : destinations) {
+			images = service.getImages(d.getId());
+			if(!images.isEmpty()) {
+				image = images.get(0);
+			}
+			else {
+				image = new Image();
+				image.setImage("defaut.jpg");
+			}
+			imagesDestination.add(image);
+		}
+		request.setAttribute("destinations", destinations);
+		request.setAttribute("imagesDestination", imagesDestination);
+		RequestDispatcher rd = getServletContext().getRequestDispatcher("/show-destinations.jsp");
 		rd.forward(request, response);
 		doGet(request, response);
-		}
-	
-	private String getFileName(Part part) {
-		final String partHeader = part.getHeader("content-disposition");
-		LOGGER.log(Level.INFO, "Part Header = {0}", partHeader);
-		for (String content : part.getHeader("content-disposition").split(";")) {
-		if (content.trim().startsWith("filename")) {
-		return content.substring(content.indexOf('=') + 1).trim().replace("\"", "");
-		}
-		}
-		return null;
-		}
 	}
+}
+

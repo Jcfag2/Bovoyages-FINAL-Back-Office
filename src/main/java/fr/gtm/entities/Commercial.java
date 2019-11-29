@@ -5,47 +5,46 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="commerciaux")
+@NamedQueries({
+	@NamedQuery(name = "Commercial.getCommerciaux", query = "SELECT c FROM Commercial c order by c.id asc")
+//	@NamedQuery(name = "identificationCommercial.getCommercial", query = "SELECT c FROM Commercial c WHERE c.sha = ?1")
+})
 public class Commercial {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "pk_commercial")
 	private long id;
 	@Column(name = "username")
-	private String username;
-	@Column(name = "password")
-	private String password;
+	private String identifiant;
 
 	public Commercial() {
 	}
 
-	public Commercial(String username, String password) {
-		this.username = username;
-		this.password = password;
+	public Commercial(String username) {
+		this.identifiant = username;
 	}
 
-	public String getUsername() {
-		return username;
+	public long getId() {
+		return id;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setId(long id) {
+		this.id = id;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getIdentifiant() {
+		return identifiant;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setIdentifiant(String identifiant) {
+		this.identifiant = identifiant;
 	}
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
 
 }

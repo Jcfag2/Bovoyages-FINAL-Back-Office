@@ -1,19 +1,24 @@
 package fr.gtm.dao;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 
+import fr.gtm.entities.Commercial;
 import fr.gtm.entities.DatesVoyages;
 import fr.gtm.entities.Destination;
 import fr.gtm.entities.Image;
 
 public class DestinationDAO extends AbstractDAO<Destination, Long> {
-
+	private static final Logger LOG = Logger.getLogger("bovoyages");
+	
 	public DestinationDAO(EntityManagerFactory emf) {
 		super(emf, Destination.class);
 		
@@ -129,6 +134,33 @@ public class DestinationDAO extends AbstractDAO<Destination, Long> {
 		}
 		em.close();
 		return images;
+	}
+	
+	public List<Commercial> getCommerciaux() {
+		EntityManager em = getEntityManagerFactory().createEntityManager();
+		List<Commercial> commerciaux = em.createNamedQuery("Commercial.getCommerciaux", Commercial.class)
+				.getResultList();
+		em.close();
+		return commerciaux;
+	}
+	
+	public boolean authentification(String identifiant,String password) {
+//		List<Commercial> commercialAuthentifie;
+		List<Commercial> commerciaux = getCommerciaux();
+		for(Commercial commercial : commerciaux) {
+			if(commercial.getIdentifiant().toLowerCase().equals(identifiant.toLowerCase())) {
+				EntityManager em = getEntityManagerFactory().createEntityManager();
+//				List<String> commercialAuthentifie = em.createNativeQuery("SELECT c.username FROM commerciaux c WHERE c.sha = ?1", Commercial.class).setParameter(1, password).getResultList();
+				try {Object commercialAuthentifie = em.createNativeQuery("SELECT c.username FROM commerciaux c WHERE c.sha = ?1").setParameter(1, password).getSingleResult();
+				LOG.info(">>> \n \n \n"
+						+ ">>> "+ commercialAuthentifie);
+					return true;
+				}catch (NoResultException n) {
+					return false;
+				  }
+			}
+		}
+		return false;
 	}
 
 }

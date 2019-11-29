@@ -63,4 +63,9 @@ public void addDestination(Destination destination){
 	dao.create(destination);
 }
 
+public boolean authentification(String identifiant,String password) {
+	return dao.authentification(identifiant,password);
+}
+
+
 }
