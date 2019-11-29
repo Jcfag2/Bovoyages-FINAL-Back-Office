@@ -25,6 +25,7 @@ public class AjoutDatesServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		DestinationServices service = (DestinationServices) getServletContext().getAttribute(Constantes.DESTINATIONS_SERVICE);
+		try {
 		Date dateDepart=Date.valueOf(request.getParameter("dateDepart"));
 		Date dateRetour=Date.valueOf(request.getParameter("dateRetour"));
 		int prixHT=Integer.valueOf(request.getParameter("prixHT"));
@@ -53,6 +54,18 @@ public class AjoutDatesServlet extends HttpServlet {
 		String page = "/show-dates.jsp";
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(page);
 		rd.forward(request,response);
+		}catch(IllegalArgumentException exception) {
+			long id = Long.parseLong(request.getParameter("id"));
+			List<DatesVoyages> datesVoyages =  service.getDatesVoyages(id);
+			Destination destination = service.getDestinationById(id);
+			request.setAttribute("datesVoyages", datesVoyages);
+			request.setAttribute("destination", destination);
+			List<Destination> destinations =  service.getDestinations();
+			request.setAttribute("destinations", destinations);
+			String page = "/show-dates.jsp";
+			RequestDispatcher rd = getServletContext().getRequestDispatcher(page);
+			rd.forward(request,response);
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

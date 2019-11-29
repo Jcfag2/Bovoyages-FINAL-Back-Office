@@ -2,6 +2,7 @@ package fr.gtm.servlets;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -31,6 +32,8 @@ public class UpdateDatesServlet extends HttpServlet {
 		Destination destination=service.getDestinationById(destinationID);
 		request.setAttribute("date", date);
 		request.setAttribute("destination", destination);
+		List<Destination> destinations =  service.getDestinations();
+		request.setAttribute("destinations", destinations);
 		String page = "/edit-date.jsp";
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(page);
 		rd.forward(request,response);
