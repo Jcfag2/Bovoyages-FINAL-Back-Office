@@ -3,7 +3,10 @@ package fr.gtm.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -32,11 +35,11 @@ public class Destination {
 	private String description;
 	@Column(name = "deleted")
 	private int deleted;
-	@OneToMany(fetch=FetchType.EAGER)
-	@JoinColumn(name="")
-	private List<Image> image=new ArrayList<Image>();
-	@OneToMany(fetch=FetchType.EAGER)
-	@Column(name="liste_datesvoyages")
+	@OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+	@JoinColumn(name="fk_destination")
+	private List<Image> images=new ArrayList<Image>();
+	@OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+	@JoinColumn(name="fk_destination")
 	private List<DatesVoyages> dates=new ArrayList<DatesVoyages>();
 
 	public Destination() {
@@ -80,11 +83,11 @@ public class Destination {
 	}
 
 	public List<Image> getImage() {
-		return image;
+		return images;
 	}
 
 	public void setImage(List<Image> image) {
-		this.image = image;
+		this.images = image;
 	}
 
 	public List<DatesVoyages> getDates() {

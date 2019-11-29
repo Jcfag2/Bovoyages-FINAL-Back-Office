@@ -13,7 +13,11 @@ public class Image {
 	private String image;
 	@Column(name = "fk_destination")
 	private long fkDestination;
-
+	public Image() {}
+	public Image(String image,long fkDestination) {
+		this.image=image;
+		this.fkDestination=fkDestination;
+	}
 	public String getImage() {
 		return image;
 	}

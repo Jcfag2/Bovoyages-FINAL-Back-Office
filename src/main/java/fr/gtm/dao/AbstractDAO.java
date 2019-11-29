@@ -1,5 +1,8 @@
 package fr.gtm.dao;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
@@ -13,6 +16,7 @@ import javax.persistence.EntityManagerFactory;
 public abstract class AbstractDAO<E,ID> {
 	private EntityManagerFactory emf;
 	private Class<E> entityClass;
+	private final static Logger LOGGER = Logger.getLogger(AbstractDAO.class.getCanonicalName());
 
 	protected AbstractDAO(EntityManagerFactory emf,Class<E> entityClass) {
 		this.entityClass = entityClass;
@@ -24,6 +28,7 @@ public abstract class AbstractDAO<E,ID> {
 	}
 	
 	public void create(E entity) {
+		LOGGER.log(Level.INFO, "dans le create");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 		em.persist(entity);

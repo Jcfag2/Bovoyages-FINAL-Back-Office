@@ -2,8 +2,8 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" version="4.0">
   <display-name>bovoyages2</display-name>
   <context-param>
-  <param-name>folder-upload</param-name>
-  <param-value>/images</param-value>
+  <param-name>upload-folder</param-name>
+  <param-value>/images/</param-value>
   </context-param>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>

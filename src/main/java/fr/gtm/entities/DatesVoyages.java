@@ -98,9 +98,5 @@ public DatesVoyages() {}
 	public void setFkDestination(long fkDestination) {
 		this.fkDestination = fkDestination;
 	}
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
 
 }
