@@ -1,6 +1,7 @@
 package fr.gtm.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.gtm.entities.DatesVoyages;
 import fr.gtm.entities.Destination;
+import fr.gtm.entities.Image;
 import fr.gtm.services.DestinationServices;
 
 /**

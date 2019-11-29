@@ -33,6 +33,8 @@ public class DeleteDatesServlet extends HttpServlet {
 		List<DatesVoyages> datesVoyages=service.getDatesVoyages(destinationID);
 		request.setAttribute("datesVoyages", datesVoyages);
 		request.setAttribute("destination", destination);
+		List<Destination> destinations =  service.getDestinations();
+		request.setAttribute("destinations", destinations);
 		String page = "/show-dates.jsp";
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(page);
 		rd.forward(request,response);

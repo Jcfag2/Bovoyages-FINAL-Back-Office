@@ -39,9 +39,17 @@ public class AjoutDatesServlet extends HttpServlet {
 //		destination.setDates(datesVoyages);
 //		service.modifyDestination(destination);
 		//List<DatesVoyages> datesVoyages =  service.getDatesVoyages(id);
-		DatesVoyages datesVoyages=service.getDatesById(id);
-		request.setAttribute("date", datesVoyages);
+//		=====================================================================
+//      Je ne sais pas à quoi sert le datesVoyages à envoyer en date à la jsp
+//		=====================================================================
+//		DatesVoyages datesVoyages=service.getDatesById(id);
+//		request.setAttribute("date", datesVoyages);
+//		================================================================
+		List<DatesVoyages> datesVoyages =  service.getDatesVoyages(id);
+		request.setAttribute("datesVoyages", datesVoyages);
 		request.setAttribute("destination", destination);
+		List<Destination> destinations =  service.getDestinations();
+		request.setAttribute("destinations", destinations);
 		String page = "/show-dates.jsp";
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(page);
 		rd.forward(request,response);

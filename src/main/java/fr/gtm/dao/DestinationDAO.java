@@ -69,16 +69,19 @@ public class DestinationDAO extends AbstractDAO<Destination, Long> {
 		Destination d=em.find(Destination.class, destinationID);
 		List<DatesVoyages> dates=new ArrayList<DatesVoyages>();
 		for(DatesVoyages date:d.getDates()) {
+			if(date.getId() == datesToRemove.getId()) {
+				date.setDeleted(1);
+			}
 			dates.add(date);
 		}
-		Iterator<DatesVoyages> iterator = dates.iterator();
-		while (iterator.hasNext()) {
-			if (iterator.next().getId() == datesToRemove.getId()) {
-				daoDate.delete(datesToRemove.getId());
-				iterator.remove();
-				
-			}
-		}
+//		Iterator<DatesVoyages> iterator = dates.iterator();
+//		while (iterator.hasNext()) {
+//			if (iterator.next().getId() == datesToRemove.getId()) {
+//				daoDate.delete(datesToRemove.getId());
+//				iterator.remove();
+//				
+//			}
+//		}
 		d.setDates(dates);
 		this.update(d);
 		return d;
@@ -117,7 +120,7 @@ public class DestinationDAO extends AbstractDAO<Destination, Long> {
 		Destination d=em.find(Destination.class, id);
 		List<DatesVoyages> dates=new ArrayList<DatesVoyages>();
 		for(DatesVoyages date:d.getDates()) {
-			dates.add(date);
+			if(date.getDeleted() == 0) dates.add(date);
 		}
 		em.close();
 		return dates;
