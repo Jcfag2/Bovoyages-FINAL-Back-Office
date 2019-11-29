@@ -51,8 +51,10 @@
 		${destination.region}</h2>
 						<form action="AjoutDatesServlet" METHOD="get">
 					<input type="hidden" name="id" id="id" value="${ destination.id }">
-					Date de départ:<input type="datetime-local" name="dateDepart" id="dateDepart" >
-					Date de retour:<input type="datetime-local" name="dateRetour" id="dateRetour">
+					<!-- input type="datetime-local" name="dateDepart" id="dateDepart" >
+					<input type="datetime-local" name="dateRetour" id="dateRetour" -->
+					Date de départ:<input type="date" name="dateDepart" id="dateDepart" >
+					Date de retour:<input type="date" name="dateRetour" id="dateRetour">
 					Prix:<input name="prixHT" id="prixHT"> 
 					Nombre de places:<input name="nbPlaces" id="nbPlaces">
 					<button class="btn btn-outline-dark" type="submit">Ajout de dates</button>
