@@ -118,7 +118,7 @@ public class DestinationDAO extends AbstractDAO<Destination, Long> {
 		Image imgToAdd=new Image(nomImage,destinationID);
 		List<Image> images=new ArrayList<Image>();
 		for(Image img:d.getImage()) {
-			images.add(img);
+			if(!img.getImage().equals(nomImage)) images.add(img);
 		}
 		images.add(imgToAdd);
 		d.setImage(images);

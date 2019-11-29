@@ -2,9 +2,12 @@ package fr.gtm.servlets;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import fr.gtm.entities.Destination;
+import fr.gtm.entities.Image;
 import fr.gtm.services.DestinationServices;
 
 @WebServlet("/AjoutImageServlet")
@@ -45,7 +50,7 @@ public class AjoutImageServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+//		
 		String folder = getServletContext().getInitParameter("upload-folder");
 		// getParameter fonctionne en enctype="multipart/form-data" grace à l'annotation @MultipartConfig
 		String name = request.getParameter("name");
@@ -55,6 +60,7 @@ public class AjoutImageServlet extends HttpServlet {
 		// copie le fichier reçu vers son emplacement définitif
 		Path path = FileSystems.getDefault().getPath(folder, fileName);
 		InputStream in = filePart.getInputStream();
+		try {
 		Files.copy(in, path);
 		in.close();
 		// pour supprimer le fichier temporaire
@@ -63,10 +69,56 @@ public class AjoutImageServlet extends HttpServlet {
 		long id = Long.parseLong(ids);
 		service.addImage(id, fileName);
 		filePart.delete();
-		RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
+		List<Destination> destinations =  service.getDestinations();
+		List<Image> images =   new ArrayList<Image>();
+		List<Image> imagesDestination =   new ArrayList<Image>();
+		Image image =   new Image();
+		for(Destination d : destinations) {
+			images = service.getImages(d.getId());
+			if(!images.isEmpty()) {
+				image = images.get(0);
+			}
+			else {
+				image = new Image();
+				image.setImage("defaut.jpg");
+			}
+			imagesDestination.add(image);
+		}
+		request.setAttribute("destinations", destinations);
+		request.setAttribute("imagesDestination", imagesDestination);
+		RequestDispatcher rd = getServletContext().getRequestDispatcher("/show-destinations.jsp");
 		rd.forward(request, response);
 		doGet(request, response);
 		}
+		catch(FileAlreadyExistsException exception) {
+			
+			DestinationServices service = (DestinationServices) getServletContext().getAttribute(Constantes.DESTINATIONS_SERVICE);
+			String ids = request.getParameter("id");
+			long id = Long.parseLong(ids);
+			service.addImage(id, fileName);
+			filePart.delete();
+			List<Destination> destinations =  service.getDestinations();
+			List<Image> images =   new ArrayList<Image>();
+			List<Image> imagesDestination =   new ArrayList<Image>();
+			Image image =   new Image();
+			for(Destination d : destinations) {
+				images = service.getImages(d.getId());
+				if(!images.isEmpty()) {
+					image = images.get(0);
+				}
+				else {
+					image = new Image();
+					image.setImage("defaut.jpg");
+				}
+				imagesDestination.add(image);
+			}
+			request.setAttribute("destinations", destinations);
+			request.setAttribute("imagesDestination", imagesDestination);
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/show-destinations.jsp");
+			rd.forward(request, response);
+			doGet(request, response);
+		}
+}
 	
 	private String getFileName(Part part) {
 		final String partHeader = part.getHeader("content-disposition");
