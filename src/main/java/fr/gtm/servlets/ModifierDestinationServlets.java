@@ -36,6 +36,10 @@ public class ModifierDestinationServlets extends HttpServlet {
 		String id = request.getParameter("id");
 		destination.setId(Long.valueOf(id));
 		String region = request.getParameter("region");
+		if(region.isBlank() || region.isEmpty()) {
+			response.sendRedirect("http://localhost:9090/bovoyage2/RenvoiDestinationParticuliere?id="+id);
+		}
+		else {
 		String description = request.getParameter("description");
 		destination.setRegion(region);
 		destination.setDescription(description);
@@ -44,5 +48,6 @@ public class ModifierDestinationServlets extends HttpServlet {
 //		service.modifyDestination(destination);
 		service.modifyDestinationLazy(destination);
 		response.sendRedirect("http://localhost:9090/bovoyage2/RenvoiDestinationParticuliere?id="+id);
+		}
 	}
 }

@@ -2,10 +2,14 @@ package fr.gtm.servlets;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.AccessDeniedException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -33,24 +37,15 @@ public class AjoutImageServlet extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AjoutImageServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
+    public AjoutImageServlet() {}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		
+		try {
+		try {
 		String folder = getServletContext().getInitParameter("upload-folder");
 		// getParameter fonctionne en enctype="multipart/form-data" grace à l'annotation @MultipartConfig
 		String name = request.getParameter("name");
@@ -60,7 +55,6 @@ public class AjoutImageServlet extends HttpServlet {
 		// copie le fichier reçu vers son emplacement définitif
 		Path path = FileSystems.getDefault().getPath(folder, fileName);
 		InputStream in = filePart.getInputStream();
-		try {
 		Files.copy(in, path);
 		in.close();
 		// pour supprimer le fichier temporaire
@@ -84,14 +78,14 @@ public class AjoutImageServlet extends HttpServlet {
 			}
 			imagesDestination.add(image);
 		}
-//		request.setAttribute("destinations", destinations);
-//		request.setAttribute("imagesDestination", imagesDestination);
-//		RequestDispatcher rd = getServletContext().getRequestDispatcher("/show-destinations.jsp");
-//		rd.forward(request, response);
 		response.sendRedirect("http://localhost:9090/bovoyage2/RenvoiDestinationParticuliere?id="+id);
 		}
 		catch(FileAlreadyExistsException exception) {
 			
+			String id = request.getParameter("id");
+			response.sendRedirect("http://localhost:9090/bovoyage2/RenvoiDestinationParticuliere?id="+id);
+		}
+		}catch(AccessDeniedException exception) {
 			String id = request.getParameter("id");
 			response.sendRedirect("http://localhost:9090/bovoyage2/RenvoiDestinationParticuliere?id="+id);
 		}

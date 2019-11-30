@@ -53,8 +53,8 @@
 </td>
 <td>
       <form action="AjoutDestinationsServlet" METHOD="POST" enctype="multipart/form-data">
-        <input name="region" id="region" value="region">
-        <input name="description" id="description" value="description">
+        <input name="region" id="region" placeholder="region">
+        <input name="description" id="description" placeholder="description">
         <input type="file" name="simple-file">
         <button class="btn btn-secondary" type="submit">ajout</button>
       </form>

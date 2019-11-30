@@ -28,9 +28,8 @@ public class UpdateDatesServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		DestinationServices service = (DestinationServices) getServletContext().getAttribute(Constantes.DESTINATIONS_SERVICE);
-		boolean thereIsNoProblemes = true;
-		thereIsNoProblemes = testDateTimeParseException(request);
-		if(thereIsNoProblemes) {
+		try {
+		try {
 		long dateID = Long.parseLong(request.getParameter("dateID"));
 		long destinationID = Long.parseLong(request.getParameter("destinationID"));
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
@@ -46,8 +45,11 @@ public class UpdateDatesServlet extends HttpServlet {
 		service.deleteDatesVoyages(destinationID, dateToRemove);
 		service.addDatesVoyages(destinationID, newDate);
 		response.sendRedirect("http://localhost:9090/bovoyage2/RenvoiDates?id="+destinationID);
+		}catch(NumberFormatException exception) {
+			long destinationID = Long.parseLong(request.getParameter("destinationID"));
+			response.sendRedirect("http://localhost:9090/bovoyage2/RenvoiDates?id="+destinationID);
 		}
-		else {
+		}catch(DateTimeParseException exception) {
 			long destinationID = Long.parseLong(request.getParameter("destinationID"));
 			response.sendRedirect("http://localhost:9090/bovoyage2/RenvoiDates?id="+destinationID);
 		}

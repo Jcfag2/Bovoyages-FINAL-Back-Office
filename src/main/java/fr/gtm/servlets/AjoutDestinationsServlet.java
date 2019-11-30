@@ -30,15 +30,12 @@ import fr.gtm.services.DestinationServices;
 @MultipartConfig()
 public class AjoutDestinationsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private final static Logger LOGGER = Logger.getLogger(AjoutImageServlet.class.getCanonicalName());
+	private final static Logger LOGGER = Logger.getLogger(AjoutDestinationsServlet.class.getCanonicalName());
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AjoutDestinationsServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+    public AjoutDestinationsServlet() {}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -56,17 +53,22 @@ public class AjoutDestinationsServlet extends HttpServlet {
 		String folder = getServletContext().getInitParameter("upload-folder");
 		// getParameter fonctionne en enctype="multipart/form-data" grace à l'annotation @MultipartConfig
 		String name = request.getParameter("name");
-		LOGGER.info("Paramètre 'name' == "+name);
 		final Part filePart = request.getPart("simple-file");
-		try {
-			
-			doTryAccessDeniedException(request,response,folder,name,filePart);
-			
-		}catch(AccessDeniedException exception) {
-			
-			doCatchAccessDeniedException(request,response);
-			
+		String region = request.getParameter("region");
+		if(region.isBlank() || region.isEmpty()) {
+			response.sendRedirect("http://localhost:9090/bovoyage2/RenvoiToutesDestinations");
 		}
+		else {
+			try {
+				
+				doTryAccessDeniedException(request,response,folder,name,filePart);
+			
+			}catch(AccessDeniedException exception) {
+				
+				doCatchAccessDeniedException(request,response);
+			}
+		}
+		
 		}
 	
 	private String getFileName(Part part) {
@@ -80,8 +82,8 @@ public class AjoutDestinationsServlet extends HttpServlet {
 		return null;
 		}
 	
-	private void doCatchFileAlreadyExistsException(HttpServletRequest request, HttpServletResponse response, InputStream in,Part filePart)  throws ServletException, IOException {
-		
+	private void doCatchFileAlreadyExistsException(HttpServletRequest request, HttpServletResponse response,InputStream in, String fileName,Part filePart)  throws ServletException, IOException {
+//		fermeture du fichier pour ne pas avoir de fuite de memoire
 		in.close();
 		// pour supprimer le fichier temporaire
 		DestinationServices service = (DestinationServices) getServletContext().getAttribute(Constantes.DESTINATIONS_SERVICE);
@@ -91,9 +93,16 @@ public class AjoutDestinationsServlet extends HttpServlet {
 		destination.setRegion(region);
 		destination.setDescription(description);
 		service.addDestination(destination);
+		List<Destination> destinations= service.getDestinations();
+		long id = 0;
+		for(Destination d : destinations) {
+			if(d.getId() > id) {
+				id = d.getId();
+			}
+		}
+		service.addImage(id, fileName);
 		filePart.delete();
 //		Recuperation informations pour ajouter les destinations
-		List<Destination> destinations=new ArrayList<Destination>();
 		destinations =  service.getDestinations();
 		List<Image> images =   new ArrayList<Image>();
 		List<Image> imagesDestination =   new ArrayList<Image>();
@@ -160,19 +169,21 @@ public class AjoutDestinationsServlet extends HttpServlet {
 				}
 				catch(FileAlreadyExistsException exception) {
 					
-					doCatchFileAlreadyExistsException(request,response,in,filePart);
+					doCatchFileAlreadyExistsException(request,response,in,fileName,filePart);
 					
 				}
 	}
 	
 	private void doTryFileAlreadyExistsException(HttpServletRequest request, HttpServletResponse response,String folder, String name, Part filePart, String fileName, Path path, InputStream in)  throws ServletException, IOException {
-		
 		Files.copy(in, path);
 		in.close();
 		// pour supprimer le fichier temporaire
 		DestinationServices service = (DestinationServices) getServletContext().getAttribute(Constantes.DESTINATIONS_SERVICE);
 		Destination destination = new Destination();
 		String region = request.getParameter("region");
+//		========================================================
+//		Test du champs region
+//		========================================================
 		String description = request.getParameter("description");
 		destination.setRegion(region);
 		destination.setDescription(description);
@@ -208,6 +219,7 @@ public class AjoutDestinationsServlet extends HttpServlet {
 		RequestDispatcher rd = getServletContext().getRequestDispatcher("/show-destinations.jsp");
 		rd.forward(request, response);
 		doGet(request, response);
+		
 	}
 }
 
