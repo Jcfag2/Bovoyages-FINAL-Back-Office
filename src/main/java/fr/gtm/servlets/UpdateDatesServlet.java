@@ -26,8 +26,7 @@ public class UpdateDatesServlet extends HttpServlet {
         super();
     }
 
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		DestinationServices service = (DestinationServices) getServletContext().getAttribute(Constantes.DESTINATIONS_SERVICE);
 		boolean thereIsNoProblemes = true;
 		thereIsNoProblemes = testDateTimeParseException(request);
@@ -46,32 +45,12 @@ public class UpdateDatesServlet extends HttpServlet {
 		DatesVoyages dateToRemove=  service.getDatesById(dateID);
 		service.deleteDatesVoyages(destinationID, dateToRemove);
 		service.addDatesVoyages(destinationID, newDate);
-		Destination destination=service.getDestinationById(destinationID);
-		List<DatesVoyages> datesVoyages=service.getDatesVoyages(destinationID);
-		request.setAttribute("datesVoyages", datesVoyages);
-		request.setAttribute("destination", destination);
-		List<Destination> destinations =  service.getDestinations();
-		request.setAttribute("destinations", destinations);
-		String page = "/show-dates.jsp";
-		RequestDispatcher rd = getServletContext().getRequestDispatcher(page);
-		rd.forward(request,response);
+		response.sendRedirect("http://localhost:9090/bovoyage2/RenvoiDates?id="+destinationID);
 		}
 		else {
 			long destinationID = Long.parseLong(request.getParameter("destinationID"));
-			Destination destination=service.getDestinationById(destinationID);
-			List<DatesVoyages> datesVoyages=service.getDatesVoyages(destinationID);
-			request.setAttribute("datesVoyages", datesVoyages);
-			request.setAttribute("destination", destination);
-			List<Destination> destinations =  service.getDestinations();
-			request.setAttribute("destinations", destinations);
-			String page = "/show-dates.jsp";
-			RequestDispatcher rd = getServletContext().getRequestDispatcher(page);
-			rd.forward(request,response);
+			response.sendRedirect("http://localhost:9090/bovoyage2/RenvoiDates?id="+destinationID);
 		}
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
 	}
 	
 	private boolean testDateTimeParseException(HttpServletRequest request) {

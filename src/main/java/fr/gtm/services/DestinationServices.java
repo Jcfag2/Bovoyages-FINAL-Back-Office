@@ -71,5 +71,8 @@ public void promouvoirDestination(long destinationID, DatesVoyages dateAPromouvo
 	dao.promouvoirDestination(destinationID, dateAPromouvoir);
 }
 
+public void modifyDestinationLazy(Destination destination) {
+	dao.updateLazy(destination);
+}
 
 }

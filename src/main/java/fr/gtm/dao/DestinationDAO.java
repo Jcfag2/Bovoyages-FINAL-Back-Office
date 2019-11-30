@@ -200,5 +200,19 @@ public class DestinationDAO extends AbstractDAO<Destination, Long> {
 		this.update(d);
 		return d;
 	}
+	
+	public void updateLazy(Destination destination) {
+		DatesVoyagesDAO daoDate=new DatesVoyagesDAO(getEntityManagerFactory());
+		EntityManager em=getEntityManagerFactory().createEntityManager();
+		Destination d=em.find(Destination.class, destination.getId());
+		d.setRegion(destination.getRegion());
+		d.setDescription(destination.getDescription());
+		List<DatesVoyages> dates=new ArrayList<DatesVoyages>();
+		for(DatesVoyages date:d.getDates()) {
+			dates.add(date);
+		}
+		d.setDates(dates);
+		this.update(d);
+	}
 
 }

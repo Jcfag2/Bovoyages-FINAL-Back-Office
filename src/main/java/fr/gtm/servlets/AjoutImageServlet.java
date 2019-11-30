@@ -84,39 +84,16 @@ public class AjoutImageServlet extends HttpServlet {
 			}
 			imagesDestination.add(image);
 		}
-		request.setAttribute("destinations", destinations);
-		request.setAttribute("imagesDestination", imagesDestination);
-		RequestDispatcher rd = getServletContext().getRequestDispatcher("/show-destinations.jsp");
-		rd.forward(request, response);
-		doGet(request, response);
+//		request.setAttribute("destinations", destinations);
+//		request.setAttribute("imagesDestination", imagesDestination);
+//		RequestDispatcher rd = getServletContext().getRequestDispatcher("/show-destinations.jsp");
+//		rd.forward(request, response);
+		response.sendRedirect("http://localhost:9090/bovoyage2/RenvoiDestinationParticuliere?id="+id);
 		}
 		catch(FileAlreadyExistsException exception) {
 			
-			DestinationServices service = (DestinationServices) getServletContext().getAttribute(Constantes.DESTINATIONS_SERVICE);
-			String ids = request.getParameter("id");
-			long id = Long.parseLong(ids);
-			service.addImage(id, fileName);
-			filePart.delete();
-			List<Destination> destinations =  service.getDestinations();
-			List<Image> images =   new ArrayList<Image>();
-			List<Image> imagesDestination =   new ArrayList<Image>();
-			Image image =   new Image();
-			for(Destination d : destinations) {
-				images = service.getImages(d.getId());
-				if(!images.isEmpty()) {
-					image = images.get(0);
-				}
-				else {
-					image = new Image();
-					image.setImage("defaut.jpg");
-				}
-				imagesDestination.add(image);
-			}
-			request.setAttribute("destinations", destinations);
-			request.setAttribute("imagesDestination", imagesDestination);
-			RequestDispatcher rd = getServletContext().getRequestDispatcher("/show-destinations.jsp");
-			rd.forward(request, response);
-			doGet(request, response);
+			String id = request.getParameter("id");
+			response.sendRedirect("http://localhost:9090/bovoyage2/RenvoiDestinationParticuliere?id="+id);
 		}
 }
 	

@@ -23,82 +23,38 @@ import fr.gtm.services.DestinationServices;
 public class AjoutDatesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger("bovoyages");
+	private final static Logger LOGGER = Logger.getLogger(AjoutDatesServlet.class.getCanonicalName());
 
     public AjoutDatesServlet() {
         super();
     }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		DestinationServices service = (DestinationServices) getServletContext().getAttribute(Constantes.DESTINATIONS_SERVICE);
 		boolean thereIsNoProbleme = true;
 		try {
 		thereIsNoProbleme = testDateTimeParseException(request);
 		if(thereIsNoProbleme) {
-//		Date dateDepart=Date.valueOf(request.getParameter("dateDepart"));
-//		Date dateRetour=Date.valueOf(request.getParameter("dateRetour"));
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 		LocalDateTime dateDepartLocal = LocalDateTime.parse(request.getParameter("dateDepartLocal"), formatter);
 		LocalDateTime dateRetourLocal = LocalDateTime.parse(request.getParameter("dateRetourLocal"), formatter);
-//		String localDateTimeString = request.getParameter("dateDepartLocal");
-//		LOG.info("\n >>>  \n >>>\n >>> date locale en string :  "+localDateTimeString);
-//		LOG.info("\n >>>  \n >>>\n >>> date locale en localdatetime :  "+localDateTime);
 		double prixHT=Double.valueOf(request.getParameter("prixHT"));
 		int nbPlaces=Integer.valueOf(request.getParameter("nbPlaces"));
 		int deleted=0;
 		long id = Long.parseLong(request.getParameter("id"));
-//		DatesVoyages newDate=new DatesVoyages(dateDepart, dateRetour, prixHT, deleted, nbPlaces, id);
 		DatesVoyages newDate=new DatesVoyages(dateDepartLocal, dateRetourLocal, prixHT, deleted, nbPlaces, id);
 		Destination destination = service.getDestinationById(id);
 		service.addDatesVoyages(id, newDate);
-		//les 3 instructions ci-dessous font bien persister en base
-//		datesVoyages.add(newDate);
-//		destination.setDates(datesVoyages);
-//		service.modifyDestination(destination);
-		//List<DatesVoyages> datesVoyages =  service.getDatesVoyages(id);
-//		=====================================================================
-//      Je ne sais pas à quoi sert le datesVoyages à envoyer en date à la jsp
-//		=====================================================================
-//		DatesVoyages datesVoyages=service.getDatesById(id);
-//		request.setAttribute("date", datesVoyages);
-//		================================================================
-		List<DatesVoyages> datesVoyages =  service.getDatesVoyages(id);
-		request.setAttribute("datesVoyages", datesVoyages);
-		request.setAttribute("destination", destination);
-		List<Destination> destinations =  service.getDestinations();
-		request.setAttribute("destinations", destinations);
-		String page = "/show-dates.jsp";
-		RequestDispatcher rd = getServletContext().getRequestDispatcher(page);
-		rd.forward(request,response);
+		response.sendRedirect("http://localhost:9090/bovoyage2/RenvoiDates?id="+id);
 		}
 		else {
 			long id = Long.parseLong(request.getParameter("id"));
-			Destination destination = service.getDestinationById(id);
-			List<DatesVoyages> datesVoyages =  service.getDatesVoyages(id);
-			request.setAttribute("datesVoyages", datesVoyages);
-			request.setAttribute("destination", destination);
-			List<Destination> destinations =  service.getDestinations();
-			request.setAttribute("destinations", destinations);
-			String page = "/show-dates.jsp";
-			RequestDispatcher rd = getServletContext().getRequestDispatcher(page);
-			rd.forward(request,response);
+			response.sendRedirect("http://localhost:9090/bovoyage2/RenvoiDates?id="+id);
 		}
 		}catch(IllegalArgumentException exception) {
 			long id = Long.parseLong(request.getParameter("id"));
-			List<DatesVoyages> datesVoyages =  service.getDatesVoyages(id);
-			Destination destination = service.getDestinationById(id);
-			request.setAttribute("datesVoyages", datesVoyages);
-			request.setAttribute("destination", destination);
-			List<Destination> destinations =  service.getDestinations();
-			request.setAttribute("destinations", destinations);
-			String page = "/show-dates.jsp";
-			RequestDispatcher rd = getServletContext().getRequestDispatcher(page);
-			rd.forward(request,response);
+			response.sendRedirect("http://localhost:9090/bovoyage2/RenvoiDates?id="+id);
 		}
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
 	}
 	
 	private boolean testDateTimeParseException(HttpServletRequest request) {

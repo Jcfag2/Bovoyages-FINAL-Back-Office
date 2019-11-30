@@ -49,7 +49,7 @@
 
 	<h2>Gestion des dates de Voyage pour la destination
 		${destination.region}</h2>
-						<form action="AjoutDatesServlet" METHOD="get">
+						<form action="AjoutDatesServlet" METHOD="POST">
 					<input type="hidden" name="id" id="id" value="${ destination.id }">
 					Date de départ:<input type="datetime-local" name="dateDepartLocal" id="dateDepartLocal" placeholder="yyyy-MM-ddTHH:mm">
 					Date de retour:<input type="datetime-local" name="dateRetourLocal" id="dateRetourLocal" placeholder="yyyy-MM-ddTHH:mm">
@@ -70,7 +70,7 @@
 		<c:forEach items="${datesVoyages}" var="date">
 		<tr>
 
-		<form action="UpdateDatesServlet" method="post">
+		<form action="UpdateDatesServlet" method="POST">
 					<input type="hidden" name="destinationID" id="destinationID" value="${ destination.id }">
 					<input type="hidden" name="dateID" id="dateID" value="${ date.id }">
 					<td><input type="datetime-local" name="dateDepartLocal" id="dateDepartLocal" value="${date.dateDepart}"></td>
