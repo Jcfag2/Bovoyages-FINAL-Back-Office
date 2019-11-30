@@ -2,8 +2,6 @@ package fr.gtm.servlets;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -17,11 +15,11 @@ import fr.gtm.entities.DatesVoyages;
 import fr.gtm.entities.Destination;
 import fr.gtm.services.DestinationServices;
 
-@WebServlet("/UpdateDatesServlet")
-public class UpdateDatesServlet extends HttpServlet {
+@WebServlet("/UpdateDatesServletProjet2")
+public class UpdateDatesServletProjet2 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    public UpdateDatesServlet() {
+    public UpdateDatesServletProjet2() {
         super();
     }
 
@@ -30,30 +28,13 @@ public class UpdateDatesServlet extends HttpServlet {
 		DestinationServices service = (DestinationServices) getServletContext().getAttribute(Constantes.DESTINATIONS_SERVICE);
 		long dateID = Long.parseLong(request.getParameter("dateID"));
 		long destinationID = Long.parseLong(request.getParameter("destinationID"));
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-		LocalDateTime dateDepartLocal = LocalDateTime.parse(request.getParameter("dateDepartLocal"), formatter);
-		LocalDateTime dateRetourLocal = LocalDateTime.parse(request.getParameter("dateRetourLocal"), formatter);
-		String prixHTString = request.getParameter("prixHT");
-		int prixHT;
-		if(prixHTString.contains(".")) {
-			prixHT = Double.valueOf(prixHTString).intValue();
-		}
-		else {
-			prixHT=Integer.valueOf(request.getParameter("prixHT"));
-		}
-		int nbPlaces=Integer.valueOf(request.getParameter("nbPlaces"));
-		int deleted=0;
-		DatesVoyages newDate=new DatesVoyages(dateDepartLocal, dateRetourLocal, prixHT, deleted, nbPlaces,dateID);
-		DatesVoyages dateToRemove=  service.getDatesById(dateID);
-		service.deleteDatesVoyages(destinationID, dateToRemove);
-		service.addDatesVoyages(destinationID, newDate);
+		DatesVoyages date=service.getDatesById(dateID);
 		Destination destination=service.getDestinationById(destinationID);
-		List<DatesVoyages> datesVoyages=service.getDatesVoyages(destinationID);
-		request.setAttribute("datesVoyages", datesVoyages);
+		request.setAttribute("date", date);
 		request.setAttribute("destination", destination);
 		List<Destination> destinations =  service.getDestinations();
 		request.setAttribute("destinations", destinations);
-		String page = "/show-dates.jsp";
+		String page = "/edit-date.jsp";
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(page);
 		rd.forward(request,response);
 	}

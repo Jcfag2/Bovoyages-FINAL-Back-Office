@@ -51,8 +51,8 @@
 		${destination.region}</h2>
 						<form action="AjoutDatesServlet" METHOD="get">
 					<input type="hidden" name="id" id="id" value="${ destination.id }">
-					Date de départ:<input type="datetime-local" name="dateDepartLocal" id="dateDepartLocal" >
-					Date de retour:<input type="datetime-local" name="dateRetourLocal" id="dateRetourLocal">
+					Date de départ:<input type="datetime-local" name="dateDepartLocal" id="dateDepartLocal" placeholder="yyyy-MM-ddTHH:mm">
+					Date de retour:<input type="datetime-local" name="dateRetourLocal" id="dateRetourLocal" placeholder="yyyy-MM-ddTHH:mm">
 					<!--input type="date" name="dateDepart" id="dateDepart">
 					<input type="date" name="dateRetour" id="dateRetour"-->
 					Prix:<input name="prixHT" id="prixHT"> 
@@ -72,14 +72,14 @@
 		<form action="UpdateDatesServlet" method="post">
 					<input type="hidden" name="destinationID" id="destinationID" value="${ destination.id }">
 					<input type="hidden" name="dateID" id="dateID" value="${ date.id }">
-					<td><input type="datetime-local" name="dateDepart" id="dateDepart" value="${date.dateDepart}"></td>
-					<td><input type="datetime-local" name="dateRetour" id="dateRetour" value="${date.dateRetour}"></td>
+					<td><input type="datetime-local" name="dateDepartLocal" id="dateDepartLocal" value="${date.dateDepart}"></td>
+					<td><input type="datetime-local" name="dateRetourLocal" id="dateRetourLocal" value="${date.dateRetour}"></td>
 					<td><input name="prixHT" id="prixHT" value="${date.prixHT}"> </td>
 					<td><input name="nbPlaces" id="nbPlaces" value="${date.nbPlaces}"></td>
 					<td><button class="btn btn-outline-dark" type="submit">Modifier</button></td>
 		</form>
  
-		<!--form action="UpdateDatesServlet" method="post">
+		<!--form action="UpdateDatesServletProjet2" method="post">
 					<input type="hidden" name="destinationID" id="destinationID" value="${ destination.id }">
 					<input type="hidden" name="dateID" id="dateID" value="${ date.id }">
 					<td><input name="dateDepart" id="dateDepart" value="${date.dateDepart}"></td>
