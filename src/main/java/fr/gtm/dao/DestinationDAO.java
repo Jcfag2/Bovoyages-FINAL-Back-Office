@@ -176,5 +176,29 @@ public class DestinationDAO extends AbstractDAO<Destination, Long> {
 		}
 		return false;
 	}
+	
+	public Destination promouvoirDestination(long destinationID, DatesVoyages dateAPromouvoir) {
+		DatesVoyagesDAO daoDate=new DatesVoyagesDAO(getEntityManagerFactory());
+		EntityManager em=getEntityManagerFactory().createEntityManager();
+		Destination d=em.find(Destination.class, destinationID);
+		List<DatesVoyages> dates=new ArrayList<DatesVoyages>();
+		for(DatesVoyages date:d.getDates()) {
+			if(date.getId() == dateAPromouvoir.getId()) {
+				date.setPromotion(1);
+			}
+			dates.add(date);
+		}
+//		Iterator<DatesVoyages> iterator = dates.iterator();
+//		while (iterator.hasNext()) {
+//			if (iterator.next().getId() == datesToRemove.getId()) {
+//				daoDate.delete(datesToRemove.getId());
+//				iterator.remove();
+//				
+//			}
+//		}
+		d.setDates(dates);
+		this.update(d);
+		return d;
+	}
 
 }

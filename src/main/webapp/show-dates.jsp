@@ -65,6 +65,7 @@
 	<th>Date de retour:</th>
 	<th>Prix (HT):</th>
 	<th>Nombre de places:</th>
+	<th>Promotion (1:oui 0:non):</th>
 	</tr>
 		<c:forEach items="${datesVoyages}" var="date">
 		<tr>
@@ -76,6 +77,7 @@
 					<td><input type="datetime-local" name="dateRetourLocal" id="dateRetourLocal" value="${date.dateRetour}"></td>
 					<td><input name="prixHT" id="prixHT" value="${date.prixHT}"> </td>
 					<td><input name="nbPlaces" id="nbPlaces" value="${date.nbPlaces}"></td>
+					<td><input name="promotion" id="promotion" value="${date.promotion}"></td>
 					<td><button class="btn btn-outline-dark" type="submit">Modifier</button></td>
 		</form>
  
@@ -106,6 +108,13 @@
 						<button class="btn btn-danger" type="submit">Supprimer</button>
 					</form>
 				</td>
+				<!--td>
+					<form action="PromotionServlet" METHOD="POST">
+						<input type="hidden" name="dateID" id="dateID" value="${ date.id }"> 
+							<input type="hidden" name="destinationID" id="destinationID" value="${ destination.id }">
+						<button class="btn btn-success" type="submit">Promouvoir</button>
+					</form>
+				</td-->
 			</tr>
 		</c:forEach>
 

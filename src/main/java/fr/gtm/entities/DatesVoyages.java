@@ -33,6 +33,8 @@ public class DatesVoyages {
 	private int nbPlaces;
 	@Column(name = "fk_destination")
 	private long fkDestination;
+	@Column(name = "promotion")
+	private long promotion;
 
 public DatesVoyages() {}
 
@@ -45,6 +47,18 @@ public DatesVoyages() {}
 		this.deleted = deleted;
 		this.nbPlaces = nbPlaces;
 		this.fkDestination = fkDestination;
+	}
+	
+	public DatesVoyages(LocalDateTime dateDepart, LocalDateTime dateRetour, float prixHT, int deleted, int nbPlaces,
+			long fkDestination, long promotion) {
+		super();
+		this.dateDepart = dateDepart;
+		this.dateRetour = dateRetour;
+		this.prixHT = prixHT;
+		this.deleted = deleted;
+		this.nbPlaces = nbPlaces;
+		this.fkDestination = fkDestination;
+		this.promotion = promotion;
 	}
 
 	
@@ -102,6 +116,14 @@ public DatesVoyages() {}
 
 	public void setFkDestination(long fkDestination) {
 		this.fkDestination = fkDestination;
+	}
+
+	public long getPromotion() {
+		return promotion;
+	}
+
+	public void setPromotion(long promotion) {
+		this.promotion = promotion;
 	}
 
 }

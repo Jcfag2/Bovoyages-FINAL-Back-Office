@@ -67,5 +67,9 @@ public boolean authentification(String identifiant,String password) {
 	return dao.authentification(identifiant,password);
 }
 
+public void promouvoirDestination(long destinationID, DatesVoyages dateAPromouvoir) {
+	dao.promouvoirDestination(destinationID, dateAPromouvoir);
+}
+
 
 }
