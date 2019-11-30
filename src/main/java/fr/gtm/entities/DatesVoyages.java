@@ -1,5 +1,6 @@
 package fr.gtm.entities;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -16,10 +17,14 @@ public class DatesVoyages {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "pk_date_voyage")
 	private long id;
+//	@Column(name = "date_depart")
+//	private Date dateDepart;
+//	@Column(name = "date_retour")
+//	private Date dateRetour;
 	@Column(name = "date_depart")
-	private Date dateDepart;
+	private LocalDateTime dateDepart;
 	@Column(name = "date_retour")
-	private Date dateRetour;
+	private LocalDateTime dateRetour;
 	@Column(name = "prixHT")
 	private float prixHT;
 	@Column(name = "deleted")
@@ -31,7 +36,7 @@ public class DatesVoyages {
 
 public DatesVoyages() {}
 
-	public DatesVoyages(Date dateDepart, Date dateRetour, float prixHT, int deleted, int nbPlaces,
+	public DatesVoyages(LocalDateTime dateDepart, LocalDateTime dateRetour, float prixHT, int deleted, int nbPlaces,
 			long fkDestination) {
 		super();
 		this.dateDepart = dateDepart;
@@ -51,19 +56,19 @@ public DatesVoyages() {}
 		this.id = id;
 	}
 
-	public Date getDateDepart() {
+	public LocalDateTime getDateDepart() {
 		return dateDepart;
 	}
 
-	public void setDateDepart(Date dateDepart) {
+	public void setDateDepart(LocalDateTime dateDepart) {
 		this.dateDepart = dateDepart;
 	}
 
-	public Date getDateRetour() {
+	public LocalDateTime getDateRetour() {
 		return dateRetour;
 	}
 
-	public void setDateRetour(Date dateRetour) {
+	public void setDateRetour(LocalDateTime dateRetour) {
 		this.dateRetour = dateRetour;
 	}
 

@@ -2,7 +2,10 @@ package fr.gtm.servlets;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,6 +21,7 @@ import fr.gtm.services.DestinationServices;
 @WebServlet("/AjoutDatesServlet")
 public class AjoutDatesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger LOG = Logger.getLogger("bovoyages");
 
     public AjoutDatesServlet() {
         super();
@@ -26,13 +30,20 @@ public class AjoutDatesServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		DestinationServices service = (DestinationServices) getServletContext().getAttribute(Constantes.DESTINATIONS_SERVICE);
 		try {
-		Date dateDepart=Date.valueOf(request.getParameter("dateDepart"));
-		Date dateRetour=Date.valueOf(request.getParameter("dateRetour"));
+//		Date dateDepart=Date.valueOf(request.getParameter("dateDepart"));
+//		Date dateRetour=Date.valueOf(request.getParameter("dateRetour"));
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+		LocalDateTime dateDepartLocal = LocalDateTime.parse(request.getParameter("dateDepartLocal"), formatter);
+		LocalDateTime dateRetourLocal = LocalDateTime.parse(request.getParameter("dateRetourLocal"), formatter);
+//		String localDateTimeString = request.getParameter("dateDepartLocal");
+//		LOG.info("\n >>>  \n >>>\n >>> date locale en string :  "+localDateTimeString);
+//		LOG.info("\n >>>  \n >>>\n >>> date locale en localdatetime :  "+localDateTime);
 		int prixHT=Integer.valueOf(request.getParameter("prixHT"));
 		int nbPlaces=Integer.valueOf(request.getParameter("nbPlaces"));
 		int deleted=0;
 		long id = Long.parseLong(request.getParameter("id"));
-		DatesVoyages newDate=new DatesVoyages(dateDepart, dateRetour, prixHT, deleted, nbPlaces, id);
+//		DatesVoyages newDate=new DatesVoyages(dateDepart, dateRetour, prixHT, deleted, nbPlaces, id);
+		DatesVoyages newDate=new DatesVoyages(dateDepartLocal, dateRetourLocal, prixHT, deleted, nbPlaces, id);
 		Destination destination = service.getDestinationById(id);
 		service.addDatesVoyages(id, newDate);
 		//les 3 instructions ci-dessous font bien persister en base

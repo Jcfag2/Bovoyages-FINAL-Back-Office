@@ -2,6 +2,7 @@ package fr.gtm.servlets;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -33,7 +34,8 @@ public class EditDateServlet extends HttpServlet {
 		Date dateDepart=Date.valueOf(request.getParameter("dateDepart"));
 		Date dateRetour=Date.valueOf(request.getParameter("dateRetour"));
 		int deleted=0;
-		DatesVoyages newDate=new DatesVoyages(dateDepart, dateRetour, prixHT, deleted, nbPlaces,dateID);
+//		DatesVoyages newDate=new DatesVoyages(dateDepart, dateRetour, prixHT, deleted, nbPlaces,dateID);
+		DatesVoyages newDate=new DatesVoyages(LocalDateTime.now(), LocalDateTime.now(), prixHT, deleted, nbPlaces,dateID);
 		DatesVoyages dateToRemove=  service.getDatesById(dateID);
 		service.deleteDatesVoyages(destinationID, dateToRemove);
 		service.addDatesVoyages(destinationID, newDate);
