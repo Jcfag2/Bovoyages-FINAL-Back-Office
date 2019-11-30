@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -29,7 +30,10 @@ public class AjoutDatesServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		DestinationServices service = (DestinationServices) getServletContext().getAttribute(Constantes.DESTINATIONS_SERVICE);
+		boolean thereIsNoProbleme = true;
 		try {
+		thereIsNoProbleme = testDateTimeParseException(request);
+		if(thereIsNoProbleme) {
 //		Date dateDepart=Date.valueOf(request.getParameter("dateDepart"));
 //		Date dateRetour=Date.valueOf(request.getParameter("dateRetour"));
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
@@ -38,7 +42,7 @@ public class AjoutDatesServlet extends HttpServlet {
 //		String localDateTimeString = request.getParameter("dateDepartLocal");
 //		LOG.info("\n >>>  \n >>>\n >>> date locale en string :  "+localDateTimeString);
 //		LOG.info("\n >>>  \n >>>\n >>> date locale en localdatetime :  "+localDateTime);
-		int prixHT=Integer.valueOf(request.getParameter("prixHT"));
+		double prixHT=Double.valueOf(request.getParameter("prixHT"));
 		int nbPlaces=Integer.valueOf(request.getParameter("nbPlaces"));
 		int deleted=0;
 		long id = Long.parseLong(request.getParameter("id"));
@@ -65,6 +69,19 @@ public class AjoutDatesServlet extends HttpServlet {
 		String page = "/show-dates.jsp";
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(page);
 		rd.forward(request,response);
+		}
+		else {
+			long id = Long.parseLong(request.getParameter("id"));
+			Destination destination = service.getDestinationById(id);
+			List<DatesVoyages> datesVoyages =  service.getDatesVoyages(id);
+			request.setAttribute("datesVoyages", datesVoyages);
+			request.setAttribute("destination", destination);
+			List<Destination> destinations =  service.getDestinations();
+			request.setAttribute("destinations", destinations);
+			String page = "/show-dates.jsp";
+			RequestDispatcher rd = getServletContext().getRequestDispatcher(page);
+			rd.forward(request,response);
+		}
 		}catch(IllegalArgumentException exception) {
 			long id = Long.parseLong(request.getParameter("id"));
 			List<DatesVoyages> datesVoyages =  service.getDatesVoyages(id);
@@ -82,6 +99,18 @@ public class AjoutDatesServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+	}
+	
+	private boolean testDateTimeParseException(HttpServletRequest request) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+		try {
+			LocalDateTime dateDepartLocal = LocalDateTime.parse(request.getParameter("dateDepartLocal"), formatter);
+			LocalDateTime dateRetourLocal = LocalDateTime.parse(request.getParameter("dateRetourLocal"), formatter);
+			return true;
+			
+		}catch(DateTimeParseException exception) {
+			return false;
+		}
 	}
 
 }

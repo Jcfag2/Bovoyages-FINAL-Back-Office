@@ -26,7 +26,7 @@ public class DatesVoyages {
 	@Column(name = "date_retour")
 	private LocalDateTime dateRetour;
 	@Column(name = "prixHT")
-	private float prixHT;
+	private double prixHT;
 	@Column(name = "deleted")
 	private int deleted;
 	@Column(name = "nb_places")
@@ -38,7 +38,7 @@ public class DatesVoyages {
 
 public DatesVoyages() {}
 
-	public DatesVoyages(LocalDateTime dateDepart, LocalDateTime dateRetour, float prixHT, int deleted, int nbPlaces,
+	public DatesVoyages(LocalDateTime dateDepart, LocalDateTime dateRetour, double prixHT, int deleted, int nbPlaces,
 			long fkDestination) {
 		super();
 		this.dateDepart = dateDepart;
@@ -49,7 +49,7 @@ public DatesVoyages() {}
 		this.fkDestination = fkDestination;
 	}
 	
-	public DatesVoyages(LocalDateTime dateDepart, LocalDateTime dateRetour, float prixHT, int deleted, int nbPlaces,
+	public DatesVoyages(LocalDateTime dateDepart, LocalDateTime dateRetour, double prixHT, int deleted, int nbPlaces,
 			long fkDestination, long promotion) {
 		super();
 		this.dateDepart = dateDepart;
@@ -86,7 +86,7 @@ public DatesVoyages() {}
 		this.dateRetour = dateRetour;
 	}
 
-	public float getPrixHT() {
+	public double getPrixHT() {
 		return prixHT;
 	}
 
