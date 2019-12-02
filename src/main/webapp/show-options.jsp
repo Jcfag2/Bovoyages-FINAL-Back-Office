@@ -12,9 +12,13 @@
     margin-top: 20px;
     margin-bottom: 20px;
 }
+#formulaire{
+	background-color: #87CEFA;
+
+}
 </style>
 </head>
-<body>
+<body id="formulaire">
 <h2>Navigateur</h2>
 <table>
 <tr>
@@ -74,9 +78,9 @@
       <div id="presentation">
       <form action="ModifierDestinationServlets" METHOD="POST">
       <input type="hidden" name="id" id="id" value="${ destination.id }">
-      <input name="region" id="region" value="${ destination.region }"><br>
+      <input class="form-control" name="region" id="region" value="${ destination.region }"><br>
       <!-- input name="description" id="description" value="${ destination.description }" -->
-      <textarea rows="10" cols="30" name="description" id="description">${ destination.description }</textarea><br>
+      <textarea class="form-control" rows="10" cols="60" name="description" id="description">${ destination.description }</textarea><br>
       <button class="btn btn-outline-dark" type="submit">modifier</button>
       </form>
       </div>

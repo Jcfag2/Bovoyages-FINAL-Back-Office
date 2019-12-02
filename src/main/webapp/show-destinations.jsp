@@ -9,7 +9,11 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <style type="text/css">
 #bloc{
-    margin-right: 50px;
+    margin-left: 20px;
+
+}
+#blocdestination{
+    margin-left: 200px;
 
 }
 #presentation{
@@ -21,9 +25,22 @@
     display: block;
 
 }
+#presentationDestination{
+	height: 200px;
+	width: 1000px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    display: block;
+
+}
+#formulaire{
+	background-color: #87CEFA;
+
+}
 </style>
 </head>
-<body>
+<body id="formulaire">
 <h2>Navigateur</h2>
 <table>
 <tr>
@@ -69,20 +86,6 @@
 <tr>
 <td>
    <div id="bloc">
-   <c:forEach items="${destinations}" var="destinations">
-       <div id="presentation" > 
-      <form action="GetOptionsDestinationsServlet" METHOD="POST">
-        <input type="hidden" name="id" id="id" value="${ destinations.id }">
-        <input type="hidden" name="region" id="region" value="${ destinations.region }">
-        <input type="hidden" name="description" id="description" value="${ destinations.description }">
-        <button type="submit" class="btn btn-light">${destinations.region}</button>
-      </form>
-      </div> 
-   </c:forEach>
-   </div>
-</td>
-<td>
-   <div id="bloc">
    <c:forEach items="${imagesDestination}" var="imagesDestination">
       <div id="presentation" > 
       <img src="images/${imagesDestination.image}" width="300" /><br>
@@ -90,9 +93,23 @@
    </c:forEach>
    </div>
 </td>
+<td>
+   <div id="blocdestination">
+   <c:forEach items="${destinations}" var="destinations">
+       <div id="presentationDestination" > 
+      <form action="GetOptionsDestinationsServlet" METHOD="POST">
+        <input type="hidden" name="id" id="id" value="${ destinations.id }">
+        <input type="hidden" name="region" id="region" value="${ destinations.region }">
+        <input type="hidden" name="description" id="description" value="${ destinations.description }">
+        <button type="submit" class="btn btn-light">${destinations.region}</button>
+        <div>${ destinations.description }</div>
+      </form>
+      </div> 
+   </c:forEach>
+   </div>
+</td>
 </tr>
 </table>
-<a href="index.jsp">Retour</a>
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

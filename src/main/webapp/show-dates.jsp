@@ -7,8 +7,23 @@
 <meta charset="UTF-8">
 <title>Gestion Dates</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<style type="text/css">
+#formulaire{
+
+	background-color: #87CEFA;
+
+}
+#promotion{
+
+    margin-left: 40px;
+    position: relative;
+    bottom: 0;
+    
+
+}
+</style>
 </head>
-<body>
+<body id="formulaire">
 <h2>Navigateur</h2>
 <table>
 <tr>
@@ -68,7 +83,7 @@
 	<th>Date de retour:</th>
 	<th>Prix (HT):</th>
 	<th>Nombre de places:</th>
-	<th>Promotion (1:oui 0:non):</th>
+	<th>Promotion:</th>
 	</tr>
 		<c:forEach items="${datesVoyages}" var="date">
 		<tr>
@@ -83,34 +98,24 @@
 					<td><input type="checkbox" name="promotion" id="promotion" value="${date.nbPlaces}" checked="checked"></td>
 					<td><button class="btn btn-outline-dark" type="submit">Modifier</button></td>
 		</form-->
-		<c:choose>
-    <c:when test="${date.promotion==1}">
-        		<form action="UpdateDatesServlet" method="POST">
-					<input type="hidden" name="destinationID" id="destinationID" value="${ destination.id }">
-					<input type="hidden" name="dateID" id="dateID" value="${ date.id }">
+
+                 <form action="UpdateDatesServlet" method="POST">
+					    <input type="hidden" name="destinationID" id="destinationID" value="${ destination.id }">
+					    <input type="hidden" name="dateID" id="dateID" value="${ date.id }">
 					<td><input type="datetime-local" name="dateDepartLocal" id="dateDepartLocal" value="${date.dateDepart}"></td>
 					<td><input type="datetime-local" name="dateRetourLocal" id="dateRetourLocal" value="${date.dateRetour}"></td>
 					<td><input name="prixHT" id="prixHT" value="${date.prixHT}"> </td>
 					<td><input name="nbPlaces" id="nbPlaces" value="${date.nbPlaces}"></td>
-					<td><input type="checkbox" name="promotion" id="promotion" checked="checked"></td>
+					<c:choose>
+					   <c:when test="${date.promotion==1}">
+					      <td><input class="form-check-input" type="checkbox" name="promotion" id="promotion" checked="checked"></td>
+					   </c:when>
+					   <c:otherwise>
+					      <td><input class="form-check-input" type="checkbox" name="promotion" id="promotion"></td>
+					   </c:otherwise>
+					</c:choose>
 					<td><button class="btn btn-outline-dark" type="submit">Modifier</button></td>
-		</form>
-		<br />
-    </c:when>    
-    <c:otherwise>
-        		<form action="UpdateDatesServlet" method="POST">
-					<input type="hidden" name="destinationID" id="destinationID" value="${ destination.id }">
-					<input type="hidden" name="dateID" id="dateID" value="${ date.id }">
-					<td><input type="datetime-local" name="dateDepartLocal" id="dateDepartLocal" value="${date.dateDepart}"></td>
-					<td><input type="datetime-local" name="dateRetourLocal" id="dateRetourLocal" value="${date.dateRetour}"></td>
-					<td><input name="prixHT" id="prixHT" value="${date.prixHT}"> </td>
-					<td><input name="nbPlaces" id="nbPlaces" value="${date.nbPlaces}"></td>
-					<td><input type="checkbox" name="promotion" id="promotion"></td>
-					<td><button class="btn btn-outline-dark" type="submit">Modifier</button></td>
-		</form>
-		<br />
-    </c:otherwise>
-</c:choose>
+		         </form>
  
 		<!--form action="UpdateDatesServletProjet2" method="post">
 					<input type="hidden" name="destinationID" id="destinationID" value="${ destination.id }">
