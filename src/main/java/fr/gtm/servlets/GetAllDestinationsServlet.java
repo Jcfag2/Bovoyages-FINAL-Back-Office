@@ -61,6 +61,8 @@ public class GetAllDestinationsServlet extends HttpServlet {//
 		}//
 		request.setAttribute("destinations", destinations);//                                                 ajout des destinations aux element a renvoyer a la jsp, les destinations sont stockees dans une variable nommee "destinations"
 		request.setAttribute("imagesDestination", imagesDestination);//.......................................ajout des images illustrant les destinations aux element a renvoyer a la jsp, les images sont stockees dans une variable nommee "imagesDestination"
+		request.setAttribute("identifiant", request.getSession().getAttribute("identifiant"));//              ajout de l'identifiant de l'utilisateur connecte pour que ce soit visible partout et tout le temps
+//		
 		String page = "/show-destinations.jsp";//                                                             declaration de la variable page contenant le nom de la jsp que l'on souhaite renvoyer
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(page);//..............................fabrication de la jsp
 		rd.forward(request,response);//                                                                       envoi de la page jsp au server qui l'enverra a l'utilisateur

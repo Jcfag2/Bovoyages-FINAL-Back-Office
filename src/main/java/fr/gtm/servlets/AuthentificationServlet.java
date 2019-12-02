@@ -76,6 +76,9 @@ public class AuthentificationServlet extends HttpServlet {//
 					}//
 					request.setAttribute("destinations", destinations);//                    ajout des destinations aux element a renvoyer a la jsp, les destinations sont stockees dans une variable nommee "destinations"
 					request.setAttribute("imagesDestination", imagesDestination);//..........ajout des images illustrant les destinations aux element a renvoyer a la jsp, les images sont stockees dans une variable nommee "imagesDestination"
+					request.setAttribute("identifiant", identifiant);//                      recuperation de l'identifiant du commercial connecte
+					request.getSession().setAttribute("identifiant", identifiant);
+//					
 					String page = "/show-destinations.jsp";//                                declaration de la variable page contenant le nom de la jsp que l'on souhaite renvoyer
 					RequestDispatcher rd = getServletContext().getRequestDispatcher(page);//.fabrication de la jsp
 					rd.forward(request,response);//                                          envoi de la page jsp au server qui l'enverra a l'utilisateur

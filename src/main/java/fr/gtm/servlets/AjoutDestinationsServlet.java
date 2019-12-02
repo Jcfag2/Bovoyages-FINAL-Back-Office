@@ -63,7 +63,7 @@ public class AjoutDestinationsServlet extends HttpServlet {//
 		String name = request.getParameter("name");//                                                     
 		final Part filePart = request.getPart("simple-file");//
 		String region = request.getParameter("region");//                                                 recuperation du nom de la region de la destination
-		if(region.isBlank() || region.isEmpty()) {//......................................................si aucun nom de region n'a été entré ou qu'il n'y que des espaces, la condion est true 
+		if(region.isBlank() || region.isEmpty()) {//......................................................si aucun nom de region n'a été entré ou qu'il n'y que des espaces, la condion est true
 			response.sendRedirect("http://localhost:9090/bovoyage2/RenvoiToutesDestinations");//          redirection de la requete vers une autre servlet qui ne fera que de la récupération de données. Cela empêche de répéter la requête de la présente servlet en rafraichissant la page
 		}//
 		else {//                                                                     si la il y bien un nom de region, on entre dans ce bloc

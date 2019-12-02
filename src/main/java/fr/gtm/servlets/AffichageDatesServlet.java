@@ -41,6 +41,7 @@ public class AffichageDatesServlet extends HttpServlet {//
 		request.setAttribute("destination", destination);//
 		List<Destination> destinations =  service.getDestinations();//
 		request.setAttribute("destinations", destinations);//
+		request.setAttribute("identifiant", request.getSession().getAttribute("identifiant"));//              ajout de l'identifiant de l'utilisateur connecte pour que ce soit visible partout et tout le temps
 		page = "/show-dates.jsp";//
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(page);//
 		rd.forward(request,response);//

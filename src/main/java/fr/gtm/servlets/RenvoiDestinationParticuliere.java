@@ -51,6 +51,7 @@ public class RenvoiDestinationParticuliere extends HttpServlet {
 		request.setAttribute("destination", destination);
 		request.setAttribute("destinations", destinations);
 		request.setAttribute("imagesDestination", imagesDestination);
+		request.setAttribute("identifiant", request.getSession().getAttribute("identifiant"));//              ajout de l'identifiant de l'utilisateur connecte pour que ce soit visible partout et tout le temps
 		String page = "/show-options.jsp";
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(page);
 		rd.forward(request,response);

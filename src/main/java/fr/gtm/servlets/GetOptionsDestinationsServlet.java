@@ -41,6 +41,8 @@ public class GetOptionsDestinationsServlet extends HttpServlet {//
 		request.setAttribute("destination", destination);//......................ajout de la destination aux element a renvoyer a la jsp, les destinations sont stockees dans une variable nommee "destination"
 		List<Destination> destinations =  service.getDestinations();//           appel au service pour recuperer l'ensemble des destinations pour les envoyer avec la jsp : cela permet de pouvoir gerer par la suite les requetes sur la jsp
 		request.setAttribute("destinations", destinations);//....................ajout des destinations aux elements a renvoyer a la jsp, les destinations sont stockees dans une variable nommee "destinations"
+		request.setAttribute("identifiant", request.getSession().getAttribute("identifiant"));//                      ajout de l'identifiant de l'utilisateur connecte pour que ce soit visible partout et tout le temps
+//		
 		String page = "/show-options.jsp";//                                     declaration de la variable page contenant le nom de la jsp que l'on souhaite renvoyer
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(page);//.fabrication du chemin de la requete vers laquelle le serveur va renvoyer le client avec la jsp
 		rd.forward(request,response);//..........................................envoi au server des donnees pour faire la jsp et la renvoyer a l'utilisateur

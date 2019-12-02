@@ -60,6 +60,7 @@
       </form>
 </td>
 <td>
+<a class="btn btn-success">${identifiant}</a>
 <a class="btn btn-danger" href="index.jsp">Log out</a>
 </td>
 </tr>

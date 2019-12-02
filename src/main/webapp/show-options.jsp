@@ -24,6 +24,7 @@
 <tr>
 <td>
 <form action="GetAllDestinationsServlet" METHOD="POST" enctype="multipart/form-data">
+<input type="hidden" name="identifiant" id="identifiant" value="${ identifiant }">
 <button class="btn btn-secondary" type="submit" >Toutes les destinations</button>
 </form>
 </td>
@@ -35,7 +36,8 @@
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
   <c:forEach items="${destinations}" var="destinations">
       <div>
-    <form action="GetOptionsDestinationsServlet" METHOD="POST">  
+    <form action="GetOptionsDestinationsServlet" METHOD="POST">
+    <input type="hidden" name="identifiant" id="identifiant" value="${ identifiant }">  
     <input type="hidden" name="id" id="id" value="${ destinations.id }">
     <input type="hidden" name="region" id="region" value="${ destinations.region }">
     <input type="hidden" name="description" id="description" value="${ destinations.description }">
@@ -48,6 +50,7 @@
 </td>
 <td>
       <form action="AjoutDestinationsServlet" METHOD="POST" enctype="multipart/form-data">
+        <input type="hidden" name="identifiant" id="identifiant" value="${ identifiant }">
         <input name="region" id="region" placeholder="region">
         <input name="description" id="description" placeholder="description">
         <input type="file" name="simple-file">
@@ -55,6 +58,7 @@
       </form>
 </td>
 <td>
+<a class="btn btn-success">${identifiant}</a>
 <a class="btn btn-danger" href="index.jsp">Log out</a>
 </td>
 </tr>
@@ -63,6 +67,7 @@
       <div class="container">
       <div id="presentation">
       <form action="AffichageDatesServlet" METHOD="POST">
+      <input type="hidden" name="identifiant" id="identifiant" value="${ identifiant }">
       <input type="hidden" name="id" id="id" value="${ destination.id }">
       <input type="hidden" name="region" id="region" value="${ destination.region }">
       <button class="btn btn-secondary" type="submit">affichages des dates de voyages</button>
@@ -70,6 +75,7 @@
       </div>
       <div id="presentation">
       <form method="post" enctype="multipart/form-data" action="AjoutImageServlet">
+      <input type="hidden" name="identifiant" id="identifiant" value="${ identifiant }">
       <input type="file" name="simple-file">
       <input type="hidden" name="id" id="id" value="${ destination.id }">
       <input class="btn btn-outline-dark" type="submit" value="Ajouter Image" />
@@ -77,6 +83,7 @@
       </div>
       <div id="presentation">
       <form action="ModifierDestinationServlets" METHOD="POST">
+      <input type="hidden" name="identifiant" id="identifiant" value="${ identifiant }">
       <input type="hidden" name="id" id="id" value="${ destination.id }">
       <input class="form-control" name="region" id="region" value="${ destination.region }"><br>
       <!-- input name="description" id="description" value="${ destination.description }" -->
@@ -86,6 +93,7 @@
       </div>
       <div>
       <form action="DeleteServlet" METHOD="POST">
+         <input type="hidden" name="identifiant" id="identifiant" value="${ identifiant }">
          <input type="hidden" name="id" id="id" value="${ destination.id }">
          <button class="btn btn-danger" type="submit">supprimer la destination</button>
       </form>

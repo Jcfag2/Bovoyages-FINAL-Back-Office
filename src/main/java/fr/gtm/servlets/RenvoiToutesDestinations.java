@@ -48,6 +48,7 @@ public class RenvoiToutesDestinations  extends HttpServlet {
 		}
 		request.setAttribute("destinations", destinations);
 		request.setAttribute("imagesDestination", imagesDestination);
+		request.setAttribute("identifiant", request.getSession().getAttribute("identifiant"));//                    ajout de l'identifiant de l'utilisateur connecte pour que ce soit visible partout et tout le temps
 		String page = "/show-destinations.jsp";
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(page);
 		rd.forward(request,response);
