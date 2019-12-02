@@ -81,8 +81,16 @@ public class AjoutImageServlet extends HttpServlet {
 		response.sendRedirect("http://localhost:9090/bovoyage2/RenvoiDestinationParticuliere?id="+id);
 		}
 		catch(FileAlreadyExistsException exception) {
-			
+			DestinationServices service = (DestinationServices) getServletContext().getAttribute(Constantes.DESTINATIONS_SERVICE);
+			String folder = getServletContext().getInitParameter("upload-folder");
+			// getParameter fonctionne en enctype="multipart/form-data" grace à l'annotation @MultipartConfig
+			String name = request.getParameter("name");
+			LOGGER.info("Paramètre 'name' == "+name);
+			final Part filePart = request.getPart("simple-file");
+			final String fileName = getFileName(filePart);
 			String id = request.getParameter("id");
+			service.addImage(Long.valueOf(id), fileName);
+			LOGGER.info(">>> \n \n \n \n \n \n dans le FileAlreadyExistsException si le fichier existe");
 			response.sendRedirect("http://localhost:9090/bovoyage2/RenvoiDestinationParticuliere?id="+id);
 		}
 		}catch(AccessDeniedException exception) {
