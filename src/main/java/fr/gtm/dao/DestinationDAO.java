@@ -165,7 +165,7 @@ public class DestinationDAO extends AbstractDAO<Destination, Long> {
 			if(commercial.getIdentifiant().toLowerCase().equals(identifiant.toLowerCase())) {
 				EntityManager em = getEntityManagerFactory().createEntityManager();
 //				List<String> commercialAuthentifie = em.createNativeQuery("SELECT c.username FROM commerciaux c WHERE c.sha = ?1", Commercial.class).setParameter(1, password).getResultList();
-				try {Object commercialAuthentifie = em.createNativeQuery("SELECT c.username FROM commerciaux c WHERE c.sha = ?1").setParameter(1, password).getSingleResult();
+				try {Object commercialAuthentifie = em.createNativeQuery("SELECT c.username FROM commerciaux c WHERE c.sha = ?1 AND c.username = ?2").setParameter(1, password).setParameter(2,  identifiant).getSingleResult();
 				LOG.info(">>> \n \n \n"
 						+ ">>> "+ commercialAuthentifie);
 					return true;
