@@ -101,28 +101,29 @@ public class AjoutDestinationsServlet extends HttpServlet {
 			}
 		}
 		service.addImage(id, fileName);
-		filePart.delete();
-//		Recuperation informations pour ajouter les destinations
-		destinations =  service.getDestinations();
-		List<Image> images =   new ArrayList<Image>();
-		List<Image> imagesDestination =   new ArrayList<Image>();
-		Image image =   new Image();
-		for(Destination d : destinations) {
-			images = service.getImages(d.getId());
-			if(!images.isEmpty()) {
-				image = images.get(0);
-			}
-			else {
-				image = new Image();
-				image.setImage("defaut.jpg");
-			}
-			imagesDestination.add(image);
-		}
-		request.setAttribute("destinations", destinations);
-		request.setAttribute("imagesDestination", imagesDestination);
-		RequestDispatcher rd = getServletContext().getRequestDispatcher("/show-destinations.jsp");
-		rd.forward(request, response);
-		doGet(request, response);
+		response.sendRedirect("http://localhost:9090/bovoyage2/RenvoiToutesDestinations");
+//		filePart.delete();
+////		Recuperation informations pour ajouter les destinations
+//		destinations =  service.getDestinations();
+//		List<Image> images =   new ArrayList<Image>();
+//		List<Image> imagesDestination =   new ArrayList<Image>();
+//		Image image =   new Image();
+//		for(Destination d : destinations) {
+//			images = service.getImages(d.getId());
+//			if(!images.isEmpty()) {
+//				image = images.get(0);
+//			}
+//			else {
+//				image = new Image();
+//				image.setImage("defaut.jpg");
+//			}
+//			imagesDestination.add(image);
+//		}
+//		request.setAttribute("destinations", destinations);
+//		request.setAttribute("imagesDestination", imagesDestination);
+//		RequestDispatcher rd = getServletContext().getRequestDispatcher("/show-destinations.jsp");
+//		rd.forward(request, response);
+//		doGet(request, response);
 	}
 	
 	private void doCatchAccessDeniedException(HttpServletRequest request, HttpServletResponse response)   throws ServletException, IOException {
@@ -134,27 +135,28 @@ public class AjoutDestinationsServlet extends HttpServlet {
 		destination.setRegion(region);
 		destination.setDescription(description);
 		service.addDestination(destination);
+		response.sendRedirect("http://localhost:9090/bovoyage2/RenvoiToutesDestinations");
 //		recuperation des destinations pour renvoyer sur la page principale
-		List<Destination> destinations= service.getDestinations();
-		List<Image> images =   new ArrayList<Image>();
-		List<Image> imagesDestination =   new ArrayList<Image>();
-		Image image =   new Image();
-		for(Destination d : destinations) {
-			images = service.getImages(d.getId());
-			if(!images.isEmpty()) {
-				image = images.get(0);
-			}
-			else {
-				image = new Image();
-				image.setImage("defaut.jpg");
-			}
-			imagesDestination.add(image);
-		}
-		request.setAttribute("destinations", destinations);
-		request.setAttribute("imagesDestination", imagesDestination);
-		RequestDispatcher rd = getServletContext().getRequestDispatcher("/show-destinations.jsp");
-		rd.forward(request, response);
-		doGet(request, response);
+//		List<Destination> destinations= service.getDestinations();
+//		List<Image> images =   new ArrayList<Image>();
+//		List<Image> imagesDestination =   new ArrayList<Image>();
+//		Image image =   new Image();
+//		for(Destination d : destinations) {
+//			images = service.getImages(d.getId());
+//			if(!images.isEmpty()) {
+//				image = images.get(0);
+//			}
+//			else {
+//				image = new Image();
+//				image.setImage("defaut.jpg");
+//			}
+//			imagesDestination.add(image);
+//		}
+//		request.setAttribute("destinations", destinations);
+//		request.setAttribute("imagesDestination", imagesDestination);
+//		RequestDispatcher rd = getServletContext().getRequestDispatcher("/show-destinations.jsp");
+//		rd.forward(request, response);
+//		doGet(request, response);
 	}
 	
 	private void doTryAccessDeniedException(HttpServletRequest request, HttpServletResponse response,String folder, String name, Part filePart)  throws ServletException, IOException {
@@ -198,27 +200,28 @@ public class AjoutDestinationsServlet extends HttpServlet {
 		}
 		service.addImage(id, fileName);
 		filePart.delete();
+		response.sendRedirect("http://localhost:9090/bovoyage2/RenvoiToutesDestinations");
 //		Recuperation informations pour ajouter les destinations
-		destinations =  service.getDestinations();
-		List<Image> images =   new ArrayList<Image>();
-		List<Image> imagesDestination =   new ArrayList<Image>();
-		Image image =   new Image();
-		for(Destination d : destinations) {
-			images = service.getImages(d.getId());
-			if(!images.isEmpty()) {
-				image = images.get(0);
-			}
-			else {
-				image = new Image();
-				image.setImage("defaut.jpg");
-			}
-			imagesDestination.add(image);
-		}
-		request.setAttribute("destinations", destinations);
-		request.setAttribute("imagesDestination", imagesDestination);
-		RequestDispatcher rd = getServletContext().getRequestDispatcher("/show-destinations.jsp");
-		rd.forward(request, response);
-		doGet(request, response);
+//		destinations =  service.getDestinations();
+//		List<Image> images =   new ArrayList<Image>();
+//		List<Image> imagesDestination =   new ArrayList<Image>();
+//		Image image =   new Image();
+//		for(Destination d : destinations) {
+//			images = service.getImages(d.getId());
+//			if(!images.isEmpty()) {
+//				image = images.get(0);
+//			}
+//			else {
+//				image = new Image();
+//				image.setImage("defaut.jpg");
+//			}
+//			imagesDestination.add(image);
+//		}
+//		request.setAttribute("destinations", destinations);
+//		request.setAttribute("imagesDestination", imagesDestination);
+//		RequestDispatcher rd = getServletContext().getRequestDispatcher("/show-destinations.jsp");
+//		rd.forward(request, response);
+//		doGet(request, response);
 		
 	}
 }

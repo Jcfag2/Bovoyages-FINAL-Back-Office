@@ -59,6 +59,9 @@
         <button class="btn btn-secondary" type="submit">ajout</button>
       </form>
 </td>
+<td>
+<a class="btn btn-danger" href="index.jsp">Log out</a>
+</td>
 </tr>
 </table>
 <h2>Destinations par noms</h2>

@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,6 +22,7 @@ import fr.gtm.services.DestinationServices;
 @WebServlet("/UpdateDatesServlet")
 public class UpdateDatesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private final static Logger LOGGER = Logger.getLogger(UpdateDatesServlet.class.getCanonicalName());
 
     public UpdateDatesServlet() {
         super();
@@ -39,7 +41,16 @@ public class UpdateDatesServlet extends HttpServlet {
 		double prixHT = Double.valueOf(prixHTString);
 		int nbPlaces=Integer.valueOf(request.getParameter("nbPlaces"));
 		int deleted=0;
-		int promotion=Integer.valueOf(request.getParameter("promotion"));
+//		int promotion=Integer.valueOf(request.getParameter("promotion"));
+		int promotion;
+		boolean etatCheckBox = request.getParameter( "promotion" ) != null;
+		if(etatCheckBox) {
+			promotion=1;
+		}
+		else {
+			promotion=0;
+		}
+		LOGGER.info(">>> \n \n \n \n \n \n \n \n \n promotion : "+promotion);
 		DatesVoyages newDate=new DatesVoyages(dateDepartLocal, dateRetourLocal, prixHT, deleted, nbPlaces,dateID,promotion);
 		DatesVoyages dateToRemove=  service.getDatesById(dateID);
 		service.deleteDatesVoyages(destinationID, dateToRemove);

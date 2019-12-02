@@ -44,6 +44,9 @@
         <button class="btn btn-secondary" type="submit">ajout</button>
       </form>
 </td>
+<td>
+<a class="btn btn-danger" href="index.jsp">Log out</a>
+</td>
 </tr>
 </table>
 
@@ -70,16 +73,44 @@
 		<c:forEach items="${datesVoyages}" var="date">
 		<tr>
 
-		<form action="UpdateDatesServlet" method="POST">
+		<!--form action="UpdateDatesServlet" method="POST">
 					<input type="hidden" name="destinationID" id="destinationID" value="${ destination.id }">
 					<input type="hidden" name="dateID" id="dateID" value="${ date.id }">
 					<td><input type="datetime-local" name="dateDepartLocal" id="dateDepartLocal" value="${date.dateDepart}"></td>
 					<td><input type="datetime-local" name="dateRetourLocal" id="dateRetourLocal" value="${date.dateRetour}"></td>
 					<td><input name="prixHT" id="prixHT" value="${date.prixHT}"> </td>
 					<td><input name="nbPlaces" id="nbPlaces" value="${date.nbPlaces}"></td>
-					<td><input name="promotion" id="promotion" value="${date.promotion}"></td>
+					<td><input type="checkbox" name="promotion" id="promotion" value="${date.nbPlaces}" checked="checked"></td>
+					<td><button class="btn btn-outline-dark" type="submit">Modifier</button></td>
+		</form-->
+		<c:choose>
+    <c:when test="${date.promotion==1}">
+        		<form action="UpdateDatesServlet" method="POST">
+					<input type="hidden" name="destinationID" id="destinationID" value="${ destination.id }">
+					<input type="hidden" name="dateID" id="dateID" value="${ date.id }">
+					<td><input type="datetime-local" name="dateDepartLocal" id="dateDepartLocal" value="${date.dateDepart}"></td>
+					<td><input type="datetime-local" name="dateRetourLocal" id="dateRetourLocal" value="${date.dateRetour}"></td>
+					<td><input name="prixHT" id="prixHT" value="${date.prixHT}"> </td>
+					<td><input name="nbPlaces" id="nbPlaces" value="${date.nbPlaces}"></td>
+					<td><input type="checkbox" name="promotion" id="promotion" checked="checked"></td>
 					<td><button class="btn btn-outline-dark" type="submit">Modifier</button></td>
 		</form>
+		<br />
+    </c:when>    
+    <c:otherwise>
+        		<form action="UpdateDatesServlet" method="POST">
+					<input type="hidden" name="destinationID" id="destinationID" value="${ destination.id }">
+					<input type="hidden" name="dateID" id="dateID" value="${ date.id }">
+					<td><input type="datetime-local" name="dateDepartLocal" id="dateDepartLocal" value="${date.dateDepart}"></td>
+					<td><input type="datetime-local" name="dateRetourLocal" id="dateRetourLocal" value="${date.dateRetour}"></td>
+					<td><input name="prixHT" id="prixHT" value="${date.prixHT}"> </td>
+					<td><input name="nbPlaces" id="nbPlaces" value="${date.nbPlaces}"></td>
+					<td><input type="checkbox" name="promotion" id="promotion"></td>
+					<td><button class="btn btn-outline-dark" type="submit">Modifier</button></td>
+		</form>
+		<br />
+    </c:otherwise>
+</c:choose>
  
 		<!--form action="UpdateDatesServletProjet2" method="post">
 					<input type="hidden" name="destinationID" id="destinationID" value="${ destination.id }">
@@ -119,8 +150,6 @@
 		</c:forEach>
 
 	</table>
-	<a href="index.jsp">Retour</a>
-</table>
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
