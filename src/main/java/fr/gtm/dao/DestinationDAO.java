@@ -36,6 +36,7 @@ public class DestinationDAO extends AbstractDAO<Destination, Long> {
 		Destination destination = em.find(Destination.class, id);
 		destination.setDeleted(1);
 		update(destination);
+		em.close();
 	}
 
 	public List<Destination> getDestinations() {
@@ -60,6 +61,7 @@ public class DestinationDAO extends AbstractDAO<Destination, Long> {
 		dates.add(newDate);
 		d.setDates(dates);
 		this.update(d);
+		em.close();
 		return d;
 	}
 
@@ -84,6 +86,7 @@ public class DestinationDAO extends AbstractDAO<Destination, Long> {
 //		}
 		d.setDates(dates);
 		this.update(d);
+		em.close();
 		return d;
 	}
 
@@ -105,6 +108,7 @@ public class DestinationDAO extends AbstractDAO<Destination, Long> {
 		dates.add(newDates);
 		d.setDates(dates);
 		this.update(d);
+		em.close();
 		return d;
 	}
 	
@@ -137,6 +141,7 @@ public class DestinationDAO extends AbstractDAO<Destination, Long> {
 		images.add(imgToAdd);
 		d.setImage(images);
 		this.update(d);
+		em.close();
 	}
 	
 	public List<Image> getImages(Long id) {
@@ -168,8 +173,10 @@ public class DestinationDAO extends AbstractDAO<Destination, Long> {
 				try {Object commercialAuthentifie = em.createNativeQuery("SELECT c.username FROM commerciaux c WHERE c.sha = ?1 AND c.username = ?2").setParameter(1, password).setParameter(2,  identifiant).getSingleResult();
 				LOG.info(">>> \n \n \n"
 						+ ">>> "+ commercialAuthentifie);
+				     em.close();
 					return true;
 				}catch (NoResultException n) {
+					em.close();
 					return false;
 				  }
 			}
@@ -198,6 +205,7 @@ public class DestinationDAO extends AbstractDAO<Destination, Long> {
 //		}
 		d.setDates(dates);
 		this.update(d);
+		em.close();
 		return d;
 	}
 	
@@ -213,6 +221,7 @@ public class DestinationDAO extends AbstractDAO<Destination, Long> {
 		}
 		d.setDates(dates);
 		this.update(d);
+		em.close();
 	}
 
 }
