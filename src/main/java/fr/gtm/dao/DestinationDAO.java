@@ -37,6 +37,7 @@ public class DestinationDAO extends AbstractDAO<Destination, Long> {
 		destination.setDeleted(1);
 		update(destination);
 		em.close();
+		//
 	}
 
 	public List<Destination> getDestinations() {
