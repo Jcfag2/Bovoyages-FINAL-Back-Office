@@ -38,6 +38,11 @@
 	background-color: #87CEFA;
 
 }
+.textEllipsis{
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  height: 150px !important;
+ }
 </style>
 </head>
 <body id="formulaire">
@@ -105,9 +110,9 @@
         <input type="hidden" name="identifiant" id="identifiant" value="${ identifiant }">
         <input type="hidden" name="id" id="id" value="${ destinations.id }">
         <input type="hidden" name="region" id="region" value="${ destinations.region }">
-        <input type="hidden" name="description" id="description" value="${ destinations.description }">
+        <input class="textEllipsis" type="hidden" name="description" id="description" value="${ destinations.description }">
         <button type="submit" class="btn btn-light">${destinations.region}</button>
-        <div>${ destinations.description }</div>
+        <div class="textEllipsis">${ destinations.description }</div>
       </form>
       </div> 
    </c:forEach>
