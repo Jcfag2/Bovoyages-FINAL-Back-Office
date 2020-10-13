@@ -12,7 +12,7 @@
 		<maven.compiler.target>${jdk.version}</maven.compiler.target>
 		<mysql.version>[8,)</mysql.version>
 		<hibernate.version>5.4.6.Final</hibernate.version>
-		<junit.version>4.12</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<servlet-version>4.0.1</servlet-version>
 		<jsp-version>2.3.3</jsp-version>
 	</properties>
